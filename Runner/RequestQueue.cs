@@ -4,16 +4,16 @@ namespace Pythia
 {
     public class RequestQueue<T> where T : IRequest
     {
-        public Queue<T> Queue { get; set; }
+        private readonly Queue<T> _queue = new();
 
         public void Process()
         {
-            Queue.Dequeue().FulFill();
+            _queue.Dequeue().Dispatch();
         }
 
         public void QueueRequest(T request)
         {
-            Queue.Enqueue(request);
+            _queue.Enqueue(request);
         }
     }
 }

@@ -22,10 +22,16 @@ namespace Pythia
             return good;
         }
 
-        public void Purchase(PurchaseRequest purchase)
+        public void Process(PurchaseRequest purchase)
         {
             if (_goods.Count > 0 && _goods.Peek().Price <= purchase.Money)
+            {
                 purchase.FulFill();
+            }
+            else
+            {
+                purchase.Reject();
+            }
         }
     }
 }

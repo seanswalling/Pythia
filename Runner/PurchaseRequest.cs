@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Pythia
+﻿namespace Pythia
 {
     public class PurchaseRequest : IRequest
     {
@@ -19,9 +13,19 @@ namespace Pythia
             Money = money;
         }
 
+        public void Dispatch()
+        {
+            Business.Process(this);
+        }
+
         public void FulFill()
         {
             Person.Buy(Business.Supply());
+        }
+
+        public void Reject()
+        {
+            Person.PurchaseRejected();
         }
     }
 }

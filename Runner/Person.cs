@@ -5,35 +5,47 @@ namespace Pythia
 {
     public class Person
     {
-        public decimal Money { get; set; }
-        public decimal Utility { get; set; }
-        public decimal UnitSatisfaction { get; set; }
+        private decimal _money;
+        private decimal _utility;
+        
         private readonly Queue<Good> _goods = new();
         private decimal _dailyUtilityDecrease;
+        private decimal _unitSatisfaction;
 
         public void DailySubsidy()
         {
-            Money += 100;
+            _money += 100;
         }
 
         public void NewDay()
         {
-            Utility -= _dailyUtilityDecrease;
+            _utility -= _dailyUtilityDecrease;
         }
 
         public void Consume()
         {
-            while(Utility < _dailyUtilityDecrease)
+            while(_utility < _dailyUtilityDecrease)
             {
                 var good = _goods.Dequeue();
-                Utility += (good.BaseUtility * UnitSatisfaction);
+                _utility += (good.BaseUtility * _unitSatisfaction);
             }
         }
 
         public void Buy(Good good)
         {
-            Money -= good.Price;
+            _money -= good.Price;
             _goods.Enqueue(good);
+        }
+
+
+        public void PurchaseRejected()
+        {
+            
+        }
+
+        public void Process(EvaluateRequest req)
+        {
+            req.Dispatcher.Dispatch(new PurchaseRequest());
         }
     }
 }
